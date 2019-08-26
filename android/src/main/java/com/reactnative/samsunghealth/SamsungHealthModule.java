@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -80,6 +81,13 @@ public class SamsungHealthModule extends ReactContextBaseJavaModule implements L
         final Map<String, Object> constants = new HashMap<>();
         constants.put("STEP_COUNT", HealthConstants.StepCount.HEALTH_DATA_TYPE);
         constants.put("WEIGHT", HealthConstants.Weight.HEALTH_DATA_TYPE);
+        constants.put("HEIGHT", HealthConstants.Height.HEALTH_DATA_TYPE);
+        constants.put("HEART_RATE", HealthConstants.HeartRate.HEALTH_DATA_TYPE);
+        constants.put("SLEEP", HealthConstants.Sleep.HEALTH_DATA_TYPE);
+        constants.put("NUTRITION", HealthConstants.Nutrition.HEALTH_DATA_TYPE);
+        constants.put("STEP_COUNT", HealthConstants.StepCount.HEALTH_DATA_TYPE);
+        constants.put("EXERCISE", HealthConstants.Exercise.HEALTH_DATA_TYPE);
+        constants.put("FLOORS_CLIMBED", HealthConstants.FloorsClimbed.HEALTH_DATA_TYPE);
         constants.put("STEP_DAILY_TREND", SamsungHealthModule.STEP_DAILY_TREND_TYPE);
 
         return constants;
@@ -121,8 +129,8 @@ public class SamsungHealthModule extends ReactContextBaseJavaModule implements L
     }
 
     @ReactMethod
-    public void connect(ReadableArray permissions, Callback error, Callback success) {
-        ConnectionListener listener = new ConnectionListener(this, error, success);
+    public void connect(ReadableArray permissions, Promise mPromise) {
+        ConnectionListener listener = new ConnectionListener(this, mPromise);
         for (int i = 0; i < permissions.size(); i++) {
             listener.addReadPermission(permissions.getString(i));
         }

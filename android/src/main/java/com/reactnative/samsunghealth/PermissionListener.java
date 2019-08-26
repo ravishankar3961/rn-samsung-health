@@ -33,6 +33,7 @@ import com.samsung.android.sdk.healthdata.HealthPermissionManager.PermissionKey;
 import com.samsung.android.sdk.healthdata.HealthPermissionManager.PermissionResult;
 import com.samsung.android.sdk.healthdata.HealthPermissionManager.PermissionType;
 import com.samsung.android.sdk.healthdata.HealthResultHolder;
+import com.facebook.react.bridge.Promise;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,15 +47,17 @@ import java.util.Set;
 
 public class PermissionListener implements HealthResultHolder.ResultListener<PermissionResult> {
     private SamsungHealthModule mModule;
-    private Callback mSuccessCallback;
-    private Callback mErrorCallback;
+    // private Callback mSuccessCallback;
+    // private Callback mErrorCallback;
+    private Promise mPromise;
 
     private static final String REACT_MODULE = "RNSamsungHealth";
 
-    public PermissionListener(SamsungHealthModule module, Callback error, Callback success) {
+    public PermissionListener(SamsungHealthModule module, Promise promise) {
         mModule = module;
-        mSuccessCallback = success;
-        mErrorCallback = error;
+        // mSuccessCallback = success;
+        // mErrorCallback = error;
+        mPromise = promise;
     }
 
     @Override
@@ -64,10 +67,12 @@ public class PermissionListener implements HealthResultHolder.ResultListener<Per
 
         if (resultMap.containsValue(Boolean.FALSE)) {
             Log.e(REACT_MODULE, "NOT CONNECTED YET");
-            mErrorCallback.invoke("Permisson canceled");
+            // mErrorCallback.invoke("Permisson canceled");
+            mPromise.reject("Permisson canceled");
         } else {
             Log.d(REACT_MODULE, "COUNT THE STEPS!");
-            mSuccessCallback.invoke(true);
+            mPromise.resolve(true);
+            // mSuccessCallback.invoke(true);
         }
     }
 };

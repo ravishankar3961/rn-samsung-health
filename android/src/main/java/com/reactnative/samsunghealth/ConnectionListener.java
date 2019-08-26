@@ -46,9 +46,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.facebook.react.bridge.Promise;
+
 public class ConnectionListener implements HealthDataStore.ConnectionListener {
     private Callback mSuccessCallback;
     private Callback mErrorCallback;
+    private Promise mPromise;
     private SamsungHealthModule mModule;
     private HealthConnectionErrorResult mConnError;
 
@@ -56,31 +59,35 @@ public class ConnectionListener implements HealthDataStore.ConnectionListener {
 
     public Set<PermissionKey> mKeySet;
 
-    public ConnectionListener(SamsungHealthModule module, Callback error, Callback success) {
+    public ConnectionListener(SamsungHealthModule module, Promise promise) {
         mModule = module;
-        mErrorCallback = error;
-        mSuccessCallback = success;
+        mPromise = promise;
         mKeySet = new HashSet<PermissionKey>();
     }
 
     public void addReadPermission(String name) {
-        // mKeySet.add(new PermissionKey(name, PermissionType.READ));
+        mKeySet.add(new PermissionKey(name, PermissionType.READ));
         // mKeySet.add(new PermissionKey(SamsungHealthModule.STEP_DAILY_TREND_TYPE,
         // PermissionType.READ));
 
-        mKeySet.add(new PermissionKey("com.samsung.shealth.step_daily_trend", PermissionType.READ));
-        mKeySet.add(new PermissionKey("com.samsung.health.weight", PermissionType.READ));
-        mKeySet.add(new PermissionKey("com.samsung.health.height", PermissionType.READ));
-        mKeySet.add(new PermissionKey("com.samsung.health.heart_rate", PermissionType.READ));
-        mKeySet.add(new PermissionKey("com.samsung.health.blood_pressure", PermissionType.READ));
-        mKeySet.add(new PermissionKey("com.samsung.health.sleep", PermissionType.READ));
-        mKeySet.add(new PermissionKey("com.samsung.health.body_temperature", PermissionType.READ));
-        mKeySet.add(new PermissionKey("com.samsung.health.total_cholesterol", PermissionType.READ));
-        mKeySet.add(new PermissionKey("com.samsung.health.water_intake", PermissionType.READ));
-        mKeySet.add(new PermissionKey("com.samsung.health.nutrition", PermissionType.READ));
-        mKeySet.add(new PermissionKey("com.samsung.health.step_count", PermissionType.READ));
-        mKeySet.add(new PermissionKey("com.samsung.health.exercise", PermissionType.READ));
-        mKeySet.add(new PermissionKey("com.samsung.health.floors_climbed", PermissionType.READ));
+        // mKeySet.add(new PermissionKey("com.samsung.shealth.step_daily_trend",
+        // PermissionType.READ));
+        // mKeySet.add(new PermissionKey("com.samsung.health.weight",
+        // PermissionType.READ));
+        // mKeySet.add(new PermissionKey("com.samsung.health.height",
+        // PermissionType.READ));
+        // mKeySet.add(new PermissionKey("com.samsung.health.heart_rate",
+        // PermissionType.READ));
+        // mKeySet.add(new PermissionKey("com.samsung.health.sleep",
+        // PermissionType.READ));
+        // mKeySet.add(new PermissionKey("com.samsung.health.nutrition",
+        // PermissionType.READ));
+        // mKeySet.add(new PermissionKey("com.samsung.health.step_count",
+        // PermissionType.READ));
+        // mKeySet.add(new PermissionKey("com.samsung.health.exercise",
+        // PermissionType.READ));
+        // mKeySet.add(new PermissionKey("com.samsung.health.floors_climbed",
+        // PermissionType.READ));
 
     }
 
@@ -102,13 +109,14 @@ public class ConnectionListener implements HealthDataStore.ConnectionListener {
             if (resultMap.containsValue(Boolean.FALSE)) {
                 // Request the permission for reading step counts if it is not acquired
                 pmsManager.requestPermissions(mKeySet, mModule.getContext().getCurrentActivity())
-                        .setResultListener(new PermissionListener(mModule, mErrorCallback, mSuccessCallback));
+                        .setResultListener(new PermissionListener(mModule, mPromise));
             } else {
                 // Get the current step count and display it
                 Log.d(REACT_MODULE, "COUNT THE STEPS!");
                 mSuccessCallback.invoke(true);
             }
         } catch (Exception e) {
+            Log.e(REACT_MODULE, "CHECK");
             Log.e(REACT_MODULE, e.getClass().getName() + " - " + e.getMessage());
             mErrorCallback.invoke("Permission setting fails");
         }

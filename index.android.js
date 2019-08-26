@@ -1,18 +1,46 @@
-import { NativeModules, DeviceEventEmitter } from 'react-native';
+import { NativeModules, DeviceEventEmitter } from "react-native";
 
 const samsungHealth = NativeModules.RNSamsungHealth;
 
 // Version 1.0.0
 
 class RNSamsungHealth {
-  authorize() {
-    return new Promise((resolve, reject) =>
-      samsungHealth.connect(
-        [samsungHealth.STEP_COUNT],
-        msg => reject(msg),
-        res => resolve(res)
-      )
-    );
+  // authorize() {
+  //   return new Promise((resolve, reject) =>
+  //     samsungHealth.connect(
+  //       [samsungHealth.STEP_COUNT],
+  //       (msg) => {
+  //         console.log("MSG: ", msg);
+  //         return reject(msg);
+  //       },
+  //       (res) => {
+  //         console.log("__res", res);
+  //         return resolve(res);
+  //       }
+  //     )
+  //   );
+  // }
+
+  async authorize() {
+    const permissions = samsungHealth.getConstants();
+
+    let permission = [];
+
+    for (const item in permissions) {
+      permission.push(permissions[item]);
+    }
+
+    if (Array.isArray(permission)) {
+      console.log("%c permission", "color: green", permission);
+      return samsungHealth.connect(permission);
+    } else {
+      throw " permissions is not array ";
+    }
+    // .then((res) => {
+    //   console.log("___res", res)
+    //   return resolve(res);
+    // })
+    // .catch((error) => console.log("___error", error.message));
   }
 
   stop() {
@@ -31,8 +59,8 @@ class RNSamsungHealth {
       samsungHealth.readStepCountDailies(
         startDate,
         endDate,
-        msg => reject(msg, false),
-        res => resolve(res)
+        (msg) => reject(msg, false),
+        (res) => resolve(res)
       );
     });
   }
@@ -49,8 +77,8 @@ class RNSamsungHealth {
       samsungHealth.readStepCountSamples(
         startDate,
         endDate,
-        msg => reject(msg, false),
-        res => resolve(res)
+        (msg) => reject(msg, false),
+        (res) => resolve(res)
       );
     });
   }
@@ -67,8 +95,8 @@ class RNSamsungHealth {
       samsungHealth.readWeight(
         startDate,
         endDate,
-        msg => reject(msg),
-        res => resolve(res)
+        (msg) => reject(msg),
+        (res) => resolve(res)
       );
     });
   }
@@ -85,8 +113,8 @@ class RNSamsungHealth {
       samsungHealth.readSleep(
         startDate,
         endDate,
-        msg => reject(msg),
-        res => resolve(res)
+        (msg) => reject(msg),
+        (res) => resolve(res)
       );
     });
   }
@@ -103,8 +131,8 @@ class RNSamsungHealth {
       samsungHealth.readHeartRate(
         startDate,
         endDate,
-        msg => reject(msg),
-        res => resolve(res)
+        (msg) => reject(msg),
+        (res) => resolve(res)
       );
     });
   }
@@ -121,8 +149,8 @@ class RNSamsungHealth {
       samsungHealth.readExercise(
         startDate,
         endDate,
-        msg => reject(msg),
-        res => resolve(res)
+        (msg) => reject(msg),
+        (res) => resolve(res)
       );
     });
   }
@@ -139,8 +167,8 @@ class RNSamsungHealth {
       samsungHealth.readFloorsClimbed(
         startDate,
         endDate,
-        msg => reject(msg),
-        res => resolve(res)
+        (msg) => reject(msg),
+        (res) => resolve(res)
       );
     });
   }
@@ -157,8 +185,8 @@ class RNSamsungHealth {
       samsungHealth.readBodyTemprature(
         startDate,
         endDate,
-        msg => reject(msg),
-        res => resolve(res)
+        (msg) => reject(msg),
+        (res) => resolve(res)
       );
     });
   }
@@ -175,8 +203,8 @@ class RNSamsungHealth {
       samsungHealth.readBloodPressure(
         startDate,
         endDate,
-        msg => reject(msg),
-        res => resolve(res)
+        (msg) => reject(msg),
+        (res) => resolve(res)
       );
     });
   }
@@ -193,8 +221,8 @@ class RNSamsungHealth {
       samsungHealth.readHeight(
         startDate,
         endDate,
-        msg => reject(msg),
-        res => resolve(res)
+        (msg) => reject(msg),
+        (res) => resolve(res)
       );
     });
   }
@@ -211,8 +239,8 @@ class RNSamsungHealth {
       samsungHealth.readWaterIntake(
         startDate,
         endDate,
-        msg => reject(msg),
-        res => resolve(res)
+        (msg) => reject(msg),
+        (res) => resolve(res)
       );
     });
   }
@@ -229,8 +257,8 @@ class RNSamsungHealth {
       samsungHealth.readNutrition(
         startDate,
         endDate,
-        msg => reject(msg),
-        res => resolve(res)
+        (msg) => reject(msg),
+        (res) => resolve(res)
       );
     });
   }
@@ -247,8 +275,8 @@ class RNSamsungHealth {
       samsungHealth.readCholesterol(
         startDate,
         endDate,
-        msg => reject(msg),
-        res => resolve(res)
+        (msg) => reject(msg),
+        (res) => resolve(res)
       );
     });
   }
