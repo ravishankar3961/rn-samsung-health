@@ -2,8 +2,8 @@ package com.reactnative.samsunghealth;
 
 import android.database.Cursor;
 import android.util.Log;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.facebook.react.bridge.Callback;
@@ -44,17 +44,14 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class PermissionListener implements
-    HealthResultHolder.ResultListener<PermissionResult>
-{
+public class PermissionListener implements HealthResultHolder.ResultListener<PermissionResult> {
     private SamsungHealthModule mModule;
     private Callback mSuccessCallback;
     private Callback mErrorCallback;
 
     private static final String REACT_MODULE = "RNSamsungHealth";
 
-    public PermissionListener(SamsungHealthModule module, Callback error, Callback success)
-    {
+    public PermissionListener(SamsungHealthModule module, Callback error, Callback success) {
         mModule = module;
         mSuccessCallback = success;
         mErrorCallback = error;
