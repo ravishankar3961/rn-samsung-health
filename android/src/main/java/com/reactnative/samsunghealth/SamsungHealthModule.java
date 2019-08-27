@@ -1,10 +1,7 @@
 package com.reactnative.samsunghealth;
 
-import android.database.Cursor;
 import android.util.Log;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.widget.Toast;
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.Promise;
@@ -13,38 +10,21 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.ReadableArray;
-import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.bridge.LifecycleEventListener;
 
-import com.samsung.android.sdk.healthdata.HealthConnectionErrorResult;
 import com.samsung.android.sdk.healthdata.HealthConstants;
-import com.samsung.android.sdk.healthdata.HealthDataObserver;
 import com.samsung.android.sdk.healthdata.HealthDataResolver;
 import com.samsung.android.sdk.healthdata.HealthDataResolver.Filter;
 import com.samsung.android.sdk.healthdata.HealthDataResolver.ReadRequest;
-import com.samsung.android.sdk.healthdata.HealthDataResolver.ReadResult;
 import com.samsung.android.sdk.healthdata.HealthDataService;
 import com.samsung.android.sdk.healthdata.HealthDataStore;
-import com.samsung.android.sdk.healthdata.HealthDevice;
-import com.samsung.android.sdk.healthdata.HealthDeviceManager;
-import com.samsung.android.sdk.healthdata.HealthPermissionManager;
-import com.samsung.android.sdk.healthdata.HealthPermissionManager.PermissionKey;
-import com.samsung.android.sdk.healthdata.HealthPermissionManager.PermissionResult;
-import com.samsung.android.sdk.healthdata.HealthPermissionManager.PermissionType;
-import com.samsung.android.sdk.healthdata.HealthResultHolder;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by firodj on 5/2/17.
@@ -85,7 +65,6 @@ public class SamsungHealthModule extends ReactContextBaseJavaModule implements L
         constants.put("HEART_RATE", HealthConstants.HeartRate.HEALTH_DATA_TYPE);
         constants.put("SLEEP", HealthConstants.Sleep.HEALTH_DATA_TYPE);
         constants.put("NUTRITION", HealthConstants.Nutrition.HEALTH_DATA_TYPE);
-        constants.put("STEP_COUNT", HealthConstants.StepCount.HEALTH_DATA_TYPE);
         constants.put("EXERCISE", HealthConstants.Exercise.HEALTH_DATA_TYPE);
         constants.put("FLOORS_CLIMBED", HealthConstants.FloorsClimbed.HEALTH_DATA_TYPE);
         constants.put("STEP_DAILY_TREND", SamsungHealthModule.STEP_DAILY_TREND_TYPE);

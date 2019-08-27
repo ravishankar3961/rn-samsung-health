@@ -5,22 +5,6 @@ const samsungHealth = NativeModules.RNSamsungHealth;
 // Version 1.0.0
 
 class RNSamsungHealth {
-  // authorize() {
-  //   return new Promise((resolve, reject) =>
-  //     samsungHealth.connect(
-  //       [samsungHealth.STEP_COUNT],
-  //       (msg) => {
-  //         console.log("MSG: ", msg);
-  //         return reject(msg);
-  //       },
-  //       (res) => {
-  //         console.log("__res", res);
-  //         return resolve(res);
-  //       }
-  //     )
-  //   );
-  // }
-
   async authorize() {
     const permissions = samsungHealth.getConstants();
 
@@ -31,16 +15,10 @@ class RNSamsungHealth {
     }
 
     if (Array.isArray(permission)) {
-      console.log("%c permission", "color: green", permission);
       return samsungHealth.connect(permission);
     } else {
       throw " permissions is not array ";
     }
-    // .then((res) => {
-    //   console.log("___res", res)
-    //   return resolve(res);
-    // })
-    // .catch((error) => console.log("___error", error.message));
   }
 
   stop() {
