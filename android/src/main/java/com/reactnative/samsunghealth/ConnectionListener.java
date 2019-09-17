@@ -75,8 +75,10 @@ public class ConnectionListener implements HealthDataStore.ConnectionListener {
         AlertDialog.Builder alert = new AlertDialog.Builder(mModule.getContext().getCurrentActivity());
         mConnError = error;
         String message = "Connection with Samsung Health is not available";
+        Integer errorCode = 0;
 
         if (error.hasResolution()) {
+            errorCode = error.getErrorCode();
             switch (error.getErrorCode()) {
             case HealthConnectionErrorResult.PLATFORM_NOT_INSTALLED:
                 message = "Please install Samsung Health";
@@ -96,22 +98,24 @@ public class ConnectionListener implements HealthDataStore.ConnectionListener {
             }
         }
 
-        alert.setMessage(message);
+        // alert.setMessage(message);
 
-        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                if (mConnError.hasResolution()) {
-                    mConnError.resolve(mModule.getContext().getCurrentActivity());
-                }
-            }
-        });
+        // alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        //     @Override
+        //     public void onClick(DialogInterface dialog, int id) {
+        //         if (mConnError.hasResolution()) {
+        //             mConnError.resolve(mModule.getContext().getCurrentActivity());
+        //         }
+        //     }
+        // });
 
-        if (error.hasResolution()) {
-            alert.setNegativeButton("Cancel", null);
-        }
+        // if (error.hasResolution()) {
+        //     alert.setNegativeButton("Cancel", null);
+        // }
 
-        alert.show();
+        // alert.show();
+        mPromise.reject(errorCode+" : "+message);
+
         // mErrorCallback.invoke(message);
     }
 
