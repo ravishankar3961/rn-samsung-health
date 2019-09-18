@@ -1,7 +1,7 @@
 package com.reactnative.samsunghealth;
 
 import android.util.Log;
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.Promise;
