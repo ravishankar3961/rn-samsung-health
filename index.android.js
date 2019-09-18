@@ -21,6 +21,17 @@ class RNSamsungHealth {
     }
   }
 
+  isAvailable(callback) {
+    return new Promise((resolve, reject) => {
+      samsungHealth.isAvailable()
+        .then(succ => callback(null,true))
+        .catch(err => {
+          if (err.message == 'Please install Samsung Health') return callback(err.message,false)
+          callback(err.message, true)
+        })
+    });
+  }
+
   stop() {
     samsungHealth.disconnect();
   }

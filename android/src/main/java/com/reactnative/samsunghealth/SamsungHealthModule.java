@@ -119,6 +119,13 @@ public class SamsungHealthModule extends ReactContextBaseJavaModule implements L
     }
 
     @ReactMethod
+    public void isAvailable(Promise mPromise){
+      ConnectionListener listener = new ConnectionListener(this, mPromise);
+      mStore = new HealthDataStore(getReactApplicationContext(), listener);
+      mStore.connectService();
+    }
+
+    @ReactMethod
     public void disconnect() {
         if (mStore != null) {
             Log.d(REACT_MODULE, "disconnectService");
@@ -130,7 +137,7 @@ public class SamsungHealthModule extends ReactContextBaseJavaModule implements L
     /*
      * private final HealthDataObserver mObserver = new HealthDataObserver(null) {
      * // Update the step count when a change event is received
-     * 
+     *
      * @Override public void onChange(String dataTypeName) { Log.d(REACT_MODULE,
      * "Observer receives a data changed event"); readStepCount(); } }; private void
      * start() { // Register an observer to listen changes of step count and get

@@ -75,10 +75,8 @@ public class ConnectionListener implements HealthDataStore.ConnectionListener {
         AlertDialog.Builder alert = new AlertDialog.Builder(mModule.getContext().getCurrentActivity());
         mConnError = error;
         String message = "Connection with Samsung Health is not available";
-        Integer errorCode = 0;
 
         if (error.hasResolution()) {
-            errorCode = error.getErrorCode();
             switch (error.getErrorCode()) {
             case HealthConnectionErrorResult.PLATFORM_NOT_INSTALLED:
                 message = "Please install Samsung Health";
@@ -114,7 +112,7 @@ public class ConnectionListener implements HealthDataStore.ConnectionListener {
         // }
 
         // alert.show();
-        mPromise.reject(errorCode+" : "+message);
+        mPromise.reject(message);
 
         // mErrorCallback.invoke(message);
     }
