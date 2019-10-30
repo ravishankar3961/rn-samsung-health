@@ -107,7 +107,6 @@ public class SamsungHealthModule extends ReactContextBaseJavaModule implements L
     }
 
     @Override
-    @ReactMethod
     public Map<String, Object> getConstants() {
         Log.d(REACT_MODULE, "getConstants");
         final Map<String, Object> constants = new HashMap<>();
@@ -129,18 +128,13 @@ public class SamsungHealthModule extends ReactContextBaseJavaModule implements L
         Log.d(REACT_MODULE, "readDailyStepCount");
         HealthDataResolver resolver = new HealthDataResolver(mStore, null);
 
-        Filter filter = Filter.and(
-            Filter.greaterThanEquals(SamsungHealthModule.DAY_TIME, (long)startDate),
-            Filter.lessThanEquals(SamsungHealthModule.DAY_TIME, (long)endDate)
-        );
+        Filter filter = Filter.and(Filter.greaterThanEquals(SamsungHealthModule.DAY_TIME, (long) startDate),
+                Filter.lessThanEquals(SamsungHealthModule.DAY_TIME, (long) endDate));
         HealthDataResolver.ReadRequest request = new ReadRequest.Builder()
                 .setDataType(SamsungHealthModule.STEP_DAILY_TREND)
-                .setProperties(new String[] { 
-                    HealthConstants.StepCount.COUNT, 
-                    SamsungHealthModule.DAY_TIME,
-                    HealthConstants.StepCount.DEVICE_UUID })
-                .setFilter(filter)
-                .build();
+                .setProperties(new String[] { HealthConstants.StepCount.COUNT, SamsungHealthModule.DAY_TIME,
+                        HealthConstants.StepCount.DEVICE_UUID })
+                .setFilter(filter).build();
 
         try {
             resolver.read(request).setResultListener(new HealthDataResultListener(this, error, success));

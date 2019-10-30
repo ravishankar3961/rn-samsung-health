@@ -21,6 +21,7 @@ import com.facebook.react.bridge.Promise;
 public class ConnectionListener implements HealthDataStore.ConnectionListener {
     private Callback mSuccessCallback;
     private Callback mErrorCallback;
+    private String mErrorMessage;
     private Promise mPromise;
     private SamsungHealthModule mModule;
     private HealthConnectionErrorResult mConnError;
@@ -79,24 +80,43 @@ public class ConnectionListener implements HealthDataStore.ConnectionListener {
         if (error.hasResolution()) {
             switch (error.getErrorCode()) {
             case HealthConnectionErrorResult.PLATFORM_NOT_INSTALLED:
-                message = "Please install Samsung Health";
-                break;
+                message = "Please install the Samsung Health app";
+                mPromise.reject(message);
+                return;
             case HealthConnectionErrorResult.OLD_VERSION_PLATFORM:
-                message = "Please upgrade Samsung Health";
+                message = "Please upgrade the Samsung Health app";
                 break;
             case HealthConnectionErrorResult.PLATFORM_DISABLED:
-                message = "Please enable Samsung Health";
+                message = "Please enable the Samsung Health app";
                 break;
             case HealthConnectionErrorResult.USER_AGREEMENT_NEEDED:
-                message = "Please agree with Samsung Health policy";
+                message = "Please agree to the Samsung Health policy";
                 break;
             default:
-                message = "Please make Samsung Health available";
+                message = "Please make the Samsung Health app available";
                 break;
             }
         }
 
-        mPromise.reject(message);
+        mErrorMessage = message;
+
+        alert.setMessage(message);
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                if (mConnError.hasResolution()) {
+                    mConnError.resolve(mModule.getContext().getCurrentActivity());
+                } else {
+                    mPromise.reject(mErrorMessage);
+                }
+
+            }
+        });
+        if (error.hasResolution()) {
+            alert.setNegativeButton("Cancel", null);
+        }
+        alert.show();
+
     }
 
     @Override

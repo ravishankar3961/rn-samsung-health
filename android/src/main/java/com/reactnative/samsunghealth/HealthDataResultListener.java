@@ -3,10 +3,10 @@ package com.reactnative.samsunghealth;
 import android.database.Cursor;
 import android.util.Log;
 
-import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Promise;
 
 import com.samsung.android.sdk.healthdata.HealthConstants;
 import com.samsung.android.sdk.healthdata.HealthDataResolver.ReadResult;
@@ -22,16 +22,14 @@ import java.util.Map;
 public class HealthDataResultListener implements HealthResultHolder.ResultListener<ReadResult> {
     private static final String REACT_MODULE = "RNSamsungHealth";
 
-    private Callback mSuccessCallback;
-    private Callback mErrorCallback;
     private SamsungHealthModule mModule;
+    private Promise mPromise;
 
     public static final String[] TIME_COLUMNS = { "day_time" };
 
-    public HealthDataResultListener(SamsungHealthModule module, Callback error, Callback success) {
-        mSuccessCallback = success;
-        mErrorCallback = error;
+    public HealthDataResultListener(SamsungHealthModule module, Promise promise) {
         mModule = module;
+        mPromise = promise;
     }
 
     private WritableMap getDeviceInfo(String uuid) {
@@ -93,7 +91,8 @@ public class HealthDataResultListener implements HealthResultHolder.ResultListen
         try {
             c = result.getResultCursor();
 
-            // Log.d("getResultCursorgetResultCursor ", result.getResultCursor().toString());
+            // Log.d("getResultCursorgetResultCursor ",
+            // result.getResultCursor().toString());
 
             if (c.moveToFirst()) {
                 Log.d(REACT_MODULE, "Column Names" + Arrays.toString(c.getColumnNames()));
@@ -150,7 +149,7 @@ public class HealthDataResultListener implements HealthResultHolder.ResultListen
             }
         } catch (Exception e) {
             Log.e(REACT_MODULE, e.getClass().getName() + " - " + e.getMessage());
-            mErrorCallback.invoke(e.getClass().getName() + " - " + e.getMessage());
+            mPromise.reject(e.getMessage());
         } finally {
             if (c != null) {
                 c.close();
@@ -164,7 +163,7 @@ public class HealthDataResultListener implements HealthResultHolder.ResultListen
             map.putArray("data", entry.getValue());
             results.pushMap(map);
         }
-        // Log.d("resultsresultsresults  ", results.toString());
-        mSuccessCallback.invoke(results);
+        // Log.d("resultsresultsresults ", results.toString());
+        mPromise.resolve(results);
     }
 }

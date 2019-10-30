@@ -5,7 +5,6 @@ const samsungHealth = NativeModules.RNSamsungHealth
 const RNSamsungHealth = () => {
   const authorize = () => {
     const permissions = samsungHealth.getConstants()
-
     const permissionList = Object.values(permissions)
 
     if (Array.isArray(permissionList)) {
@@ -37,14 +36,7 @@ const RNSamsungHealth = () => {
       options.startDate != undefined ? options.startDate : new Date().setHours(0, 0, 0, 0)
     let endDate = options.endDate != undefined ? options.endDate : new Date().valueOf()
 
-    return new Promise((resolve, reject) => {
-      samsungHealth.readDailyStepCount(
-        startDate,
-        endDate,
-        msg => reject(msg, false),
-        res => resolve(res)
-      )
-    })
+    return samsungHealth.readDailyStepCount(startDate, endDate)
   }
 
   return {
