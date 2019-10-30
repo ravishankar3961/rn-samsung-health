@@ -26,7 +26,7 @@ public class HealthDataResultListener implements HealthResultHolder.ResultListen
     private Callback mErrorCallback;
     private SamsungHealthModule mModule;
 
-    public static final String[] TIME_COLUMNS = { "day_time", "start_time", "end_time" };
+    public static final String[] TIME_COLUMNS = { "day_time" };
 
     public HealthDataResultListener(SamsungHealthModule module, Callback error, Callback success) {
         mSuccessCallback = success;
@@ -93,7 +93,7 @@ public class HealthDataResultListener implements HealthResultHolder.ResultListen
         try {
             c = result.getResultCursor();
 
-            Log.d("getResultCursorgetResultCursor ", result.getResultCursor().toString());
+            // Log.d("getResultCursorgetResultCursor ", result.getResultCursor().toString());
 
             if (c.moveToFirst()) {
                 Log.d(REACT_MODULE, "Column Names" + Arrays.toString(c.getColumnNames()));
@@ -164,7 +164,7 @@ public class HealthDataResultListener implements HealthResultHolder.ResultListen
             map.putArray("data", entry.getValue());
             results.pushMap(map);
         }
-        Log.d("resultsresultsresults  ", results.toString());
+        // Log.d("resultsresultsresults  ", results.toString());
         mSuccessCallback.invoke(results);
     }
 }

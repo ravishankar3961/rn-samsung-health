@@ -96,30 +96,11 @@ public class ConnectionListener implements HealthDataStore.ConnectionListener {
             }
         }
 
-        // alert.setMessage(message);
-
-        // alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-        //     @Override
-        //     public void onClick(DialogInterface dialog, int id) {
-        //         if (mConnError.hasResolution()) {
-        //             mConnError.resolve(mModule.getContext().getCurrentActivity());
-        //         }
-        //     }
-        // });
-
-        // if (error.hasResolution()) {
-        //     alert.setNegativeButton("Cancel", null);
-        // }
-
-        // alert.show();
         mPromise.reject(message);
-
-        // mErrorCallback.invoke(message);
     }
 
     @Override
     public void onDisconnected() {
         Log.d(REACT_MODULE, "Health data service is disconnected.");
-        // mErrorCallback.invoke("Health data service is disconnected.");
     }
 };

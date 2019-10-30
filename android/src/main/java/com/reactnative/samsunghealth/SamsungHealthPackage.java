@@ -1,6 +1,6 @@
 package com.reactnative.samsunghealth;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
@@ -43,5 +43,3 @@ public class SamsungHealthPackage implements ReactPackage {
     }
 
 }
-
-/* vim :set ts=4 sw=4 sts=4 et : */

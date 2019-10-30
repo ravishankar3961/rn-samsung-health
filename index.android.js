@@ -1,319 +1,58 @@
-import { NativeModules, DeviceEventEmitter } from "react-native";
+import {NativeModules} from 'react-native'
 
-const samsungHealth = NativeModules.RNSamsungHealth;
+const samsungHealth = NativeModules.RNSamsungHealth
 
-// Version 1.0.0
+const RNSamsungHealth = () => {
+  const authorize = () => {
+    const permissions = samsungHealth.getConstants()
 
-class RNSamsungHealth {
-  async authorize() {
-    const permissions = samsungHealth.getConstants();
+    const permissionList = Object.values(permissions)
 
-    let permission = [];
-
-    for (const item in permissions) {
-      permission.push(permissions[item]);
-    }
-
-    if (Array.isArray(permission)) {
-      return samsungHealth.connect(permission);
+    if (Array.isArray(permissionList)) {
+      return samsungHealth.connect(permissionList)
     } else {
-      throw " permissions is not array ";
+      throw ' permissions is not array '
     }
   }
 
-  isAvailable(callback) {
-    return new Promise((resolve, reject) => {
-      samsungHealth.isAvailable()
-        .then(succ => callback(null,true))
-        .catch(err => {
-          if (err.message == 'Please install Samsung Health') return callback(err.message,false)
-          callback(err.message, true)
-        })
-    });
-  }
-
-  stop() {
-    samsungHealth.disconnect();
-  }
-
-  getStepCountDailies(options) {
-    let startDate =
-      options.startDate != undefined
-        ? options.startDate
-        : new Date().setHours(0, 0, 0, 0);
-    let endDate =
-      options.endDate != undefined ? options.endDate : new Date().valueOf();
-
-    return new Promise((resolve, reject) => {
-      samsungHealth.readStepCountDailies(
-        startDate,
-        endDate,
-        (msg) => reject(msg, false),
-        (res) => resolve(res)
-      );
-    });
-  }
-
-  getStepCountSamples(options) {
-    let startDate =
-      options.startDate != undefined
-        ? options.startDate
-        : new Date().setHours(0, 0, 0, 0);
-    let endDate =
-      options.endDate != undefined ? options.endDate : new Date().valueOf();
-
-    return new Promise((resolve, reject) => {
-      samsungHealth.readStepCountSamples(
-        startDate,
-        endDate,
-        (msg) => reject(msg, false),
-        (res) => resolve(res)
-      );
-    });
-  }
-
-  getWeight(options) {
-    let startDate =
-      options.startDate != undefined
-        ? options.startDate
-        : new Date().setHours(0, 0, 0, 0);
-    let endDate =
-      options.endDate != undefined ? options.endDate : new Date().valueOf();
-
-    return new Promise((resolve, reject) => {
-      samsungHealth.readWeight(
-        startDate,
-        endDate,
-        (msg) => reject(msg),
-        (res) => resolve(res)
-      );
-    });
-  }
-
-  getSleep(options) {
-    let startDate =
-      options.startDate != undefined
-        ? options.startDate
-        : new Date().setHours(0, 0, 0, 0);
-    let endDate =
-      options.endDate != undefined ? options.endDate : new Date().valueOf();
-
-    return new Promise((resolve, reject) => {
-      samsungHealth.readSleep(
-        startDate,
-        endDate,
-        (msg) => reject(msg),
-        (res) => resolve(res)
-      );
-    });
-  }
-
-  getHeartRate(options) {
-    let startDate =
-      options.startDate != undefined
-        ? options.startDate
-        : new Date().setHours(0, 0, 0, 0);
-    let endDate =
-      options.endDate != undefined ? options.endDate : new Date().valueOf();
-
-    return new Promise((resolve, reject) => {
-      samsungHealth.readHeartRate(
-        startDate,
-        endDate,
-        (msg) => reject(msg),
-        (res) => resolve(res)
-      );
-    });
-  }
-
-  getExercise(options) {
-    let startDate =
-      options.startDate != undefined
-        ? options.startDate
-        : new Date().setHours(0, 0, 0, 0);
-    let endDate =
-      options.endDate != undefined ? options.endDate : new Date().valueOf();
-
-    return new Promise((resolve, reject) => {
-      samsungHealth.readExercise(
-        startDate,
-        endDate,
-        (msg) => reject(msg),
-        (res) => resolve(res)
-      );
-    });
-  }
-
-  getFloorsClimbed(options) {
-    let startDate =
-      options.startDate != undefined
-        ? options.startDate
-        : new Date().setHours(0, 0, 0, 0);
-    let endDate =
-      options.endDate != undefined ? options.endDate : new Date().valueOf();
-
-    return new Promise((resolve, reject) => {
-      samsungHealth.readFloorsClimbed(
-        startDate,
-        endDate,
-        (msg) => reject(msg),
-        (res) => resolve(res)
-      );
-    });
-  }
-
-  getBodyTemprature(options) {
-    let startDate =
-      options.startDate != undefined
-        ? options.startDate
-        : new Date().setHours(0, 0, 0, 0);
-    let endDate =
-      options.endDate != undefined ? options.endDate : new Date().valueOf();
-
-    return new Promise((resolve, reject) => {
-      samsungHealth.readBodyTemprature(
-        startDate,
-        endDate,
-        (msg) => reject(msg),
-        (res) => resolve(res)
-      );
-    });
-  }
-
-  getBloodPressure(options) {
-    let startDate =
-      options.startDate != undefined
-        ? options.startDate
-        : new Date().setHours(0, 0, 0, 0);
-    let endDate =
-      options.endDate != undefined ? options.endDate : new Date().valueOf();
-
-    return new Promise((resolve, reject) => {
-      samsungHealth.readBloodPressure(
-        startDate,
-        endDate,
-        (msg) => reject(msg),
-        (res) => resolve(res)
-      );
-    });
-  }
-
-  getHeight(options) {
-    let startDate =
-      options.startDate != undefined
-        ? options.startDate
-        : new Date().setHours(0, 0, 0, 0);
-    let endDate =
-      options.endDate != undefined ? options.endDate : new Date().valueOf();
-
-    return new Promise((resolve, reject) => {
-      samsungHealth.readHeight(
-        startDate,
-        endDate,
-        (msg) => reject(msg),
-        (res) => resolve(res)
-      );
-    });
-  }
-
-  getWaterIntake(options) {
-    let startDate =
-      options.startDate != undefined
-        ? options.startDate
-        : new Date().setHours(0, 0, 0, 0);
-    let endDate =
-      options.endDate != undefined ? options.endDate : new Date().valueOf();
-
-    return new Promise((resolve, reject) => {
-      samsungHealth.readWaterIntake(
-        startDate,
-        endDate,
-        (msg) => reject(msg),
-        (res) => resolve(res)
-      );
-    });
-  }
-
-  getNutrition(options) {
-    let startDate =
-      options.startDate != undefined
-        ? options.startDate
-        : new Date().setHours(0, 0, 0, 0);
-    let endDate =
-      options.endDate != undefined ? options.endDate : new Date().valueOf();
-
-    return new Promise((resolve, reject) => {
-      samsungHealth.readNutrition(
-        startDate,
-        endDate,
-        (msg) => reject(msg),
-        (res) => resolve(res)
-      );
-    });
-  }
-
-  getCholesterol(options, callback) {
-    let startDate =
-      options.startDate != undefined
-        ? options.startDate
-        : new Date().setHours(0, 0, 0, 0);
-    let endDate =
-      options.endDate != undefined ? options.endDate : new Date().valueOf();
-
-    return new Promise((resolve, reject) => {
-      samsungHealth.readCholesterol(
-        startDate,
-        endDate,
-        (msg) => reject(msg),
-        (res) => resolve(res)
-      );
-    });
-  }
-
-  usubscribeListeners() {
-    DeviceEventEmitter.removeAllListeners();
-  }
-
-  mergeResult(res) {
-    results = {};
-    for (var dev of res) {
-      if (!(dev.sourceDetail.group in results)) {
-        results[dev.sourceDetail.group] = {
-          source: dev.source,
-          sourceDetail: { group: dev.sourceDetail.group },
-          stepsDate: {}
-        };
-      }
-
-      let group = results[dev.sourceDetail.group];
-
-      for (var step of dev.steps) {
-        if (!(step.date in group.stepsDate)) {
-          group.stepsDate[step.date] = 0;
+  const isAvailable = () => {
+    return samsungHealth
+      .isAvailable()
+      .then(() => true)
+      .catch(error => {
+        if (error.message == 'Please install Samsung Health') {
+          return false
         }
 
-        group.stepsDate[step.date] += step.value;
-      }
-    }
+        return true
+      })
+  }
 
-    results2 = [];
-    for (var index in results) {
-      let group = results[index];
-      var steps = [];
-      for (var date in group.stepsDate) {
-        steps.push({
-          date: date,
-          value: group.stepsDate[date]
-        });
-      }
-      group.steps = steps.sort((a, b) => (a.date < b.date ? -1 : 1));
-      delete group.stepsDate;
+  const stop = () => {
+    samsungHealth.disconnect()
+  }
 
-      results2.push(group);
-    }
+  const getDailyStepCount = options => {
+    let startDate =
+      options.startDate != undefined ? options.startDate : new Date().setHours(0, 0, 0, 0)
+    let endDate = options.endDate != undefined ? options.endDate : new Date().valueOf()
 
-    return results2;
+    return new Promise((resolve, reject) => {
+      samsungHealth.readDailyStepCount(
+        startDate,
+        endDate,
+        msg => reject(msg, false),
+        res => resolve(res)
+      )
+    })
+  }
+
+  return {
+    authorize,
+    getDailyStepCount,
+    isAvailable,
+    stop,
   }
 }
 
-export default new RNSamsungHealth();
+export default RNSamsungHealth()
