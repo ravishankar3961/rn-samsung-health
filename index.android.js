@@ -6,9 +6,9 @@ const samsungHealth = NativeModules.RNSamsungHealth;
 
 class RNSamsungHealth {
   async authorize() {
-    const permissions = samsungHealth.getConstants();
-
-    let permission = [];
+    const permissions = {};
+    permissions.SLEEP = "com.samsung.health.sleep";
+    const permission = [];
 
     for (const item in permissions) {
       permission.push(permissions[item]);
@@ -16,19 +16,20 @@ class RNSamsungHealth {
 
     if (Array.isArray(permission)) {
       return samsungHealth.connect(permission);
-    } else {
-      throw " permissions is not array ";
     }
+    throw "permissions is not array ";
   }
 
   isAvailable(callback) {
     return new Promise((resolve, reject) => {
-      samsungHealth.isAvailable()
-        .then(succ => callback(null,true))
-        .catch(err => {
-          if (err.message == 'Please install Samsung Health') return callback(err.message,false)
-          callback(err.message, true)
-        })
+      samsungHealth
+        .isAvailable()
+        .then((succ) => callback(null, true))
+        .catch((err) => {
+          if (err.message == "Please install Samsung Health")
+            return callback(err.message, false);
+          callback(err.message, true);
+        });
     });
   }
 
@@ -37,11 +38,11 @@ class RNSamsungHealth {
   }
 
   getStepCountDailies(options) {
-    let startDate =
+    const startDate =
       options.startDate != undefined
         ? options.startDate
         : new Date().setHours(0, 0, 0, 0);
-    let endDate =
+    const endDate =
       options.endDate != undefined ? options.endDate : new Date().valueOf();
 
     return new Promise((resolve, reject) => {
@@ -55,11 +56,11 @@ class RNSamsungHealth {
   }
 
   getStepCountSamples(options) {
-    let startDate =
+    const startDate =
       options.startDate != undefined
         ? options.startDate
         : new Date().setHours(0, 0, 0, 0);
-    let endDate =
+    const endDate =
       options.endDate != undefined ? options.endDate : new Date().valueOf();
 
     return new Promise((resolve, reject) => {
@@ -73,11 +74,11 @@ class RNSamsungHealth {
   }
 
   getWeight(options) {
-    let startDate =
+    const startDate =
       options.startDate != undefined
         ? options.startDate
         : new Date().setHours(0, 0, 0, 0);
-    let endDate =
+    const endDate =
       options.endDate != undefined ? options.endDate : new Date().valueOf();
 
     return new Promise((resolve, reject) => {
@@ -91,11 +92,11 @@ class RNSamsungHealth {
   }
 
   getSleep(options) {
-    let startDate =
+    const startDate =
       options.startDate != undefined
         ? options.startDate
         : new Date().setHours(0, 0, 0, 0);
-    let endDate =
+    const endDate =
       options.endDate != undefined ? options.endDate : new Date().valueOf();
 
     return new Promise((resolve, reject) => {
@@ -109,11 +110,11 @@ class RNSamsungHealth {
   }
 
   getHeartRate(options) {
-    let startDate =
+    const startDate =
       options.startDate != undefined
         ? options.startDate
         : new Date().setHours(0, 0, 0, 0);
-    let endDate =
+    const endDate =
       options.endDate != undefined ? options.endDate : new Date().valueOf();
 
     return new Promise((resolve, reject) => {
@@ -127,11 +128,11 @@ class RNSamsungHealth {
   }
 
   getExercise(options) {
-    let startDate =
+    const startDate =
       options.startDate != undefined
         ? options.startDate
         : new Date().setHours(0, 0, 0, 0);
-    let endDate =
+    const endDate =
       options.endDate != undefined ? options.endDate : new Date().valueOf();
 
     return new Promise((resolve, reject) => {
@@ -145,11 +146,11 @@ class RNSamsungHealth {
   }
 
   getFloorsClimbed(options) {
-    let startDate =
+    const startDate =
       options.startDate != undefined
         ? options.startDate
         : new Date().setHours(0, 0, 0, 0);
-    let endDate =
+    const endDate =
       options.endDate != undefined ? options.endDate : new Date().valueOf();
 
     return new Promise((resolve, reject) => {
@@ -163,11 +164,11 @@ class RNSamsungHealth {
   }
 
   getBodyTemprature(options) {
-    let startDate =
+    const startDate =
       options.startDate != undefined
         ? options.startDate
         : new Date().setHours(0, 0, 0, 0);
-    let endDate =
+    const endDate =
       options.endDate != undefined ? options.endDate : new Date().valueOf();
 
     return new Promise((resolve, reject) => {
@@ -181,11 +182,11 @@ class RNSamsungHealth {
   }
 
   getBloodPressure(options) {
-    let startDate =
+    const startDate =
       options.startDate != undefined
         ? options.startDate
         : new Date().setHours(0, 0, 0, 0);
-    let endDate =
+    const endDate =
       options.endDate != undefined ? options.endDate : new Date().valueOf();
 
     return new Promise((resolve, reject) => {
@@ -199,11 +200,11 @@ class RNSamsungHealth {
   }
 
   getHeight(options) {
-    let startDate =
+    const startDate =
       options.startDate != undefined
         ? options.startDate
         : new Date().setHours(0, 0, 0, 0);
-    let endDate =
+    const endDate =
       options.endDate != undefined ? options.endDate : new Date().valueOf();
 
     return new Promise((resolve, reject) => {
@@ -217,11 +218,11 @@ class RNSamsungHealth {
   }
 
   getWaterIntake(options) {
-    let startDate =
+    const startDate =
       options.startDate != undefined
         ? options.startDate
         : new Date().setHours(0, 0, 0, 0);
-    let endDate =
+    const endDate =
       options.endDate != undefined ? options.endDate : new Date().valueOf();
 
     return new Promise((resolve, reject) => {
@@ -235,11 +236,11 @@ class RNSamsungHealth {
   }
 
   getNutrition(options) {
-    let startDate =
+    const startDate =
       options.startDate != undefined
         ? options.startDate
         : new Date().setHours(0, 0, 0, 0);
-    let endDate =
+    const endDate =
       options.endDate != undefined ? options.endDate : new Date().valueOf();
 
     return new Promise((resolve, reject) => {
@@ -253,11 +254,11 @@ class RNSamsungHealth {
   }
 
   getCholesterol(options, callback) {
-    let startDate =
+    const startDate =
       options.startDate != undefined
         ? options.startDate
         : new Date().setHours(0, 0, 0, 0);
-    let endDate =
+    const endDate =
       options.endDate != undefined ? options.endDate : new Date().valueOf();
 
     return new Promise((resolve, reject) => {
@@ -276,18 +277,18 @@ class RNSamsungHealth {
 
   mergeResult(res) {
     results = {};
-    for (var dev of res) {
+    for (const dev of res) {
       if (!(dev.sourceDetail.group in results)) {
         results[dev.sourceDetail.group] = {
           source: dev.source,
           sourceDetail: { group: dev.sourceDetail.group },
-          stepsDate: {}
+          stepsDate: {},
         };
       }
 
-      let group = results[dev.sourceDetail.group];
+      const group = results[dev.sourceDetail.group];
 
-      for (var step of dev.steps) {
+      for (const step of dev.steps) {
         if (!(step.date in group.stepsDate)) {
           group.stepsDate[step.date] = 0;
         }
@@ -297,13 +298,13 @@ class RNSamsungHealth {
     }
 
     results2 = [];
-    for (var index in results) {
-      let group = results[index];
-      var steps = [];
-      for (var date in group.stepsDate) {
+    for (const index in results) {
+      const group = results[index];
+      const steps = [];
+      for (const date in group.stepsDate) {
         steps.push({
-          date: date,
-          value: group.stepsDate[date]
+          date,
+          value: group.stepsDate[date],
         });
       }
       group.steps = steps.sort((a, b) => (a.date < b.date ? -1 : 1));
