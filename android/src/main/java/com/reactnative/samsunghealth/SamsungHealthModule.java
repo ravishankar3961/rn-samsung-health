@@ -39,7 +39,7 @@ public class SamsungHealthModule extends ReactContextBaseJavaModule implements L
     public static final String ACTIVE_CALORIE = "active_calorie";
     public static final String REST_CALORIE = "rest_calorie";
     public static final String TEF_CALORIE = "tef_calorie";
-    public static final String CALORIE_BURNT = "com.samsung.shealth.calories_burned";
+    public static final String CALORIE = "com.samsung.shealth.calories_burned";
 
     private HealthDataStore mStore;
 
@@ -68,10 +68,7 @@ public class SamsungHealthModule extends ReactContextBaseJavaModule implements L
         constants.put("HEIGHT", HealthConstants.Height.HEALTH_DATA_TYPE);
         constants.put("HEART_RATE", HealthConstants.HeartRate.HEALTH_DATA_TYPE);
         constants.put("SLEEP", HealthConstants.Sleep.HEALTH_DATA_TYPE);
-//        constants.put("NUTRITION", HealthConstants.Nutrition.HEALTH_DATA_TYPE);
-        constants.put("CALORIE", SamsungHealthModule.CALORIE_BURNT);
-//        constants.put("EXERCISE", HealthConstants.Exercise.HEALTH_DATA_TYPE);
-//        constants.put("FLOORS_CLIMBED", HealthConstants.FloorsClimbed.HEALTH_DATA_TYPE);
+        constants.put("CALORIE", SamsungHealthModule.CALORIE);
         constants.put("STEP_DAILY_TREND", SamsungHealthModule.STEP_DAILY_TREND_TYPE);
         return constants;
     }
@@ -321,7 +318,7 @@ public class SamsungHealthModule extends ReactContextBaseJavaModule implements L
         Filter filter = Filter.and(Filter.greaterThanEquals(SamsungHealthModule.DAY_TIME, (long) startDate),
                 Filter.lessThanEquals(SamsungHealthModule.DAY_TIME, (long) endDate));
         HealthDataResolver.ReadRequest request = new ReadRequest.Builder()
-                .setDataType(SamsungHealthModule.CALORIE_BURNT)
+                .setDataType(SamsungHealthModule.CALORIE)
                 .setProperties(new String[] {
                         SamsungHealthModule.ACTIVE_CALORIE,
                         SamsungHealthModule.REST_CALORIE,
