@@ -6,8 +6,9 @@ const samsungHealth = NativeModules.RNSamsungHealth;
 
 class RNSamsungHealth {
   async authorize() {
-    const permissions = {};
-    permissions.SLEEP = "com.samsung.health.sleep";
+
+    const permissions = samsungHealth.getConstants();
+
     const permission = [];
 
     for (const item in permissions) {
@@ -35,6 +36,24 @@ class RNSamsungHealth {
 
   stop() {
     samsungHealth.disconnect();
+  }
+
+  getCalories(options) {
+    const startDate =
+      options.startDate != undefined
+        ? options.startDate
+        : new Date().setHours(0, 0, 0, 0);
+    const endDate =
+      options.endDate != undefined ? options.endDate : new Date().valueOf();
+
+    return new Promise((resolve, reject) => {
+      samsungHealth.readCalories(
+        startDate,
+        endDate,
+        (msg) => reject(msg),
+        (res) => resolve(res)
+      );
+    });
   }
 
   getStepCountDailies(options) {

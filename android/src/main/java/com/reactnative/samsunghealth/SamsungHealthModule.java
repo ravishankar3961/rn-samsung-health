@@ -1,7 +1,7 @@
 package com.reactnative.samsunghealth;
 
 import android.util.Log;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.Promise;
@@ -36,6 +36,10 @@ public class SamsungHealthModule extends ReactContextBaseJavaModule implements L
     private static final String REACT_MODULE = "RNSamsungHealth";
     public static final String STEP_DAILY_TREND_TYPE = "com.samsung.shealth.step_daily_trend";
     public static final String DAY_TIME = "day_time";
+    public static final String ACTIVE_CALORIE = "active_calorie";
+    public static final String REST_CALORIE = "rest_calorie";
+    public static final String TEF_CALORIE = "tef_calorie";
+    public static final String CALORIE_BURNT = "com.samsung.shealth.calories_burned";
 
     private HealthDataStore mStore;
 
@@ -64,11 +68,11 @@ public class SamsungHealthModule extends ReactContextBaseJavaModule implements L
         constants.put("HEIGHT", HealthConstants.Height.HEALTH_DATA_TYPE);
         constants.put("HEART_RATE", HealthConstants.HeartRate.HEALTH_DATA_TYPE);
         constants.put("SLEEP", HealthConstants.Sleep.HEALTH_DATA_TYPE);
-        constants.put("NUTRITION", HealthConstants.Nutrition.HEALTH_DATA_TYPE);
-        constants.put("EXERCISE", HealthConstants.Exercise.HEALTH_DATA_TYPE);
-        constants.put("FLOORS_CLIMBED", HealthConstants.FloorsClimbed.HEALTH_DATA_TYPE);
+//        constants.put("NUTRITION", HealthConstants.Nutrition.HEALTH_DATA_TYPE);
+        constants.put("CALORIE", SamsungHealthModule.CALORIE_BURNT);
+//        constants.put("EXERCISE", HealthConstants.Exercise.HEALTH_DATA_TYPE);
+//        constants.put("FLOORS_CLIMBED", HealthConstants.FloorsClimbed.HEALTH_DATA_TYPE);
         constants.put("STEP_DAILY_TREND", SamsungHealthModule.STEP_DAILY_TREND_TYPE);
-
         return constants;
     }
 
@@ -308,6 +312,33 @@ public class SamsungHealthModule extends ReactContextBaseJavaModule implements L
             Log.e(REACT_MODULE, "Getting Sleep fails.");
             error.invoke("Getting Sleep fails.");
         }
+    }
+
+    @ReactMethod
+    public void readCalories(double startDate, double endDate, Callback error, Callback success) {
+        HealthDataResolver resolver = new HealthDataResolver(mStore, null);
+
+        Filter filter = Filter.and(Filter.greaterThanEquals(SamsungHealthModule.DAY_TIME, (long) startDate),
+                Filter.lessThanEquals(SamsungHealthModule.DAY_TIME, (long) endDate));
+        HealthDataResolver.ReadRequest request = new ReadRequest.Builder()
+                .setDataType(SamsungHealthModule.CALORIE_BURNT)
+                .setProperties(new String[] {
+                        SamsungHealthModule.ACTIVE_CALORIE,
+                        SamsungHealthModule.REST_CALORIE,
+                        SamsungHealthModule.TEF_CALORIE,
+                        SamsungHealthModule.DAY_TIME,
+                        HealthConstants.StepCount.DEVICE_UUID
+                })
+                .setFilter(filter).build();
+
+        try {
+            resolver.read(request).setResultListener(new HealthDataResultListener(this, error, success));
+        } catch (Exception e) {
+            Log.e(REACT_MODULE, e.getClass().getName() + " - " + e.getMessage());
+            Log.e(REACT_MODULE, "Getting calorie count fails.");
+            error.invoke("Getting calorie count fails.");
+        }
+
     }
 
     @ReactMethod

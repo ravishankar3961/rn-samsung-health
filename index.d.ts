@@ -24,6 +24,16 @@ declare module 'rn-samsung-health' {
     source: ISourceDetailes;
   }
 
+  interface ICaloriesDailiesData {
+    data: {
+      active_calorie: number;
+      rest_calorie: number;
+      tef_calorie: number;
+      day_time: number;
+    }[];
+    source: ISourceDetailes;
+  }
+
   interface IExerciseData {
     data: {
       calorie: number;
@@ -152,6 +162,8 @@ declare module 'rn-samsung-health' {
     }[];
     source: ISourceDetailes;
   }
+
+  export const getCalories: (options: IOptionData) => Promise<ICaloriesDailiesData[]>;
 
   export const getStepCountDailies: (
     options: IOptionData
